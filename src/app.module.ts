@@ -1,3 +1,4 @@
+import { KakaoOauthModule } from './auth/kakao/kakao-oauth.module';
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -35,6 +36,7 @@ import { OwnerModule } from './owner/owner.module';
       inject: [ConfigService],
     }),
     OwnerModule,
+    KakaoOauthModule,
   ],
   controllers: [AppController],
   providers: [AppService, OwnerService],
