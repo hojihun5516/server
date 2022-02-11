@@ -10,23 +10,25 @@ export type JwtPayload = { sub: number; username: string };
 export class JwtAuthStrategy extends PassportStrategy(Strategy) {
   constructor(configService: ConfigService) {
     const extractJwtFromCookie = (req) => {
+      console.log('VALIDATE1');
       let token = null;
 
       if (req && req.cookies) {
         token = req.cookies['mycookie'];
         // token = req.cookies[SESSION_COOKIE_KEY];
       }
-      return token;
+      return 'token';
     };
 
     super({
       jwtFromRequest: extractJwtFromCookie,
-      ignoreExpiration: false,
+      // ignoreExpiration: false,
       secretOrKey: configService.get<string>('JWT_SECRET'),
     });
   }
 
   async validate(payload: JwtPayload) {
+    console.log('VALIDATE');
     return { id: payload.sub, username: payload.username };
   }
 }

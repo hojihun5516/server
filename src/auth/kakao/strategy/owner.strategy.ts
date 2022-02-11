@@ -5,7 +5,10 @@ import { ConfigService } from '@nestjs/config';
 // import { UsersService } from '../../users/users.service';
 
 @Injectable()
-export class KakaoOauthStrategy extends PassportStrategy(Strategy, 'kakao') {
+export class KakaoOauthOwnerStrategy extends PassportStrategy(
+  Strategy,
+  'kakaoOwner',
+) {
   constructor(
     configService: ConfigService,
     // private readonly usersService: UsersService,
@@ -23,6 +26,7 @@ export class KakaoOauthStrategy extends PassportStrategy(Strategy, 'kakao') {
   ) {
     const { id, name, emails } = profile;
     console.log(profile);
+
     // let user = await this.usersService.findOne({
     //   where: { provider: 'kakao', providerId: id },
     // });

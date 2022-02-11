@@ -1,4 +1,8 @@
 module.exports = {
+  'linebreak-style': [
+    'error',
+    require('os').EOL === '\r\n' ? 'windows' : 'unix',
+  ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     project: 'tsconfig.json',
