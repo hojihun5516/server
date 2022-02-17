@@ -4,20 +4,18 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 // import { SESSION_COOKIE_KEY } from 'src/server/config/constants';
 
-export type JwtPayload = { sub: number; username: string };
+export type JwtPayload = { userType: string; username: string };
 
 @Injectable()
 export class JwtAuthStrategy extends PassportStrategy(Strategy) {
   constructor(configService: ConfigService) {
     const extractJwtFromCookie = (req) => {
-      console.log('VALIDATE1');
       let token = null;
 
       if (req && req.cookies) {
-        token = req.cookies['mycookie'];
-        // token = req.cookies[SESSION_COOKIE_KEY];
+        token = req.cookies[configService.get<string>('JWT_COOKIE_KEY')];
       }
-      return 'token';
+      return token;
     };
 
     super({
@@ -29,6 +27,6 @@ export class JwtAuthStrategy extends PassportStrategy(Strategy) {
 
   async validate(payload: JwtPayload) {
     console.log('VALIDATE');
-    return { id: payload.sub, username: payload.username };
+    return { userType: payload.userType, username: payload.username };
   }
 }

@@ -3,11 +3,15 @@ import { Request, Response } from 'express';
 import { KakaoOwnerOauthGuard } from './guard/owner.guard';
 import { KakaoCustomerOauthGuard } from './guard/customer.guard';
 import { JwtAuthService } from '../jwt/jwt-auth.service';
+import { ConfigService } from '@nestjs/config';
 // import { SESSION_COOKIE_KEY } from 'src/server/config/constants';
 
 @Controller('auth/kakao')
 export class KakaoOauthController {
-  constructor(private jwtAuthService: JwtAuthService) {}
+  constructor(
+    private readonly jwtAuthService: JwtAuthService,
+    private readonly configService: ConfigService,
+  ) {}
 
   @Get('customer')
   @UseGuards(KakaoCustomerOauthGuard)
@@ -16,33 +20,42 @@ export class KakaoOauthController {
   }
 
   @Get('owner')
-  @UseGuards(KakaoCustomerOauthGuard)
+  @UseGuards(KakaoOwnerOauthGuard)
   async KakaoOwnerAuth(@Req() _req) {
     // Guard redirects
+    console.log('OWNER CONTROLLER');
   }
 
-  @Get('customer/redirect')
+  // @Get('redirect')
+  @Get('redirect/customer')
   @UseGuards(KakaoCustomerOauthGuard)
   async kakaoCustomerAuthRedirect(@Req() req: Request, @Res() res: Response) {
-    console.log('SUCCESS customer');
-    // console.log(req);
-    // const { accessToken } = this.jwtAuthService.login(req.user);
-    // res.cookie(SESSION_COOKIE_KEY, accessToken, {
-    //   httpOnly: true,
-    //   sameSite: 'strict',
-    // });
-    return res.redirect('/profile');
+    const user = req.user;
+    const { accessToken } = this.jwtAuthService.login(user);
+
+    res.cookie(
+      this.configService.get<string>('SESSION_COOKIE_KEY'),
+      accessToken,
+      {
+        httpOnly: true,
+        sameSite: 'strict',
+      },
+    );
+    return 'AAAAAAAA';
+    // return res.redirect('/profile');
   }
-  @Get('owner/redirect')
-  @UseGuards(KakaoCustomerOauthGuard)
+
+  @Get('redirect/owner')
+  @UseGuards(KakaoOwnerOauthGuard)
   async kakaoOwnerAuthRedirect(@Req() req: Request, @Res() res: Response) {
-    console.log('SUCCESS');
-    // console.log(req);
-    // const { accessToken } = this.jwtAuthService.login(req.user);
-    // res.cookie(SESSION_COOKIE_KEY, accessToken, {
-    //   httpOnly: true,
-    //   sameSite: 'strict',
-    // });
+    console.log(req.user);
+    const { accessToken } = this.jwtAuthService.login(req.user);
+    res.cookie(this.configService.get<string>('JWT_COOKIE_KEY'), accessToken, {
+      httpOnly: true,
+      // sameSite: 'strict',
+    });
+    console.log(accessToken);
     return res.redirect('/profile');
+    // return res.redirect('/profile');
   }
 }

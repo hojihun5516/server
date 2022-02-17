@@ -1,8 +1,9 @@
+import { OwnerService } from 'src/user/owner/owner.service';
 import { PassportStrategy } from '@nestjs/passport';
 import { Profile, Strategy } from 'passport-kakao';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-// import { UsersService } from '../../users/users.service';
+import { ProviderType } from 'src/user/entities/user.entity';
 
 @Injectable()
 export class KakaoOauthOwnerStrategy extends PassportStrategy(
@@ -11,11 +12,11 @@ export class KakaoOauthOwnerStrategy extends PassportStrategy(
 ) {
   constructor(
     configService: ConfigService,
-    // private readonly usersService: UsersService,
+    private readonly ownerService: OwnerService,
   ) {
     super({
       clientID: configService.get<string>('KAKAO_OAUTH_CLIENT_ID'),
-      callbackURL: configService.get<string>('KAKAO_OAUTH_CALLBACK_URL'),
+      callbackURL: configService.get<string>('KAKAO_OAUTH_OWNER_CALLBACK_URL'),
     });
   }
 
@@ -24,22 +25,15 @@ export class KakaoOauthOwnerStrategy extends PassportStrategy(
     _refreshToken: string,
     profile: Profile,
   ) {
-    const { id, name, emails } = profile;
-    console.log(profile);
-
-    // let user = await this.usersService.findOne({
-    //   where: { provider: 'kakao', providerId: id },
-    // });
-    // if (!user) {
-    //   user = await this.usersService.create({
-    //     provider: 'kakao',
-    //     providerId: id,
-    //     name: name.givenName,
-    //     username: emails[0].value,
-    //   });
-    // }
-    const user = { id: '임시', name: '임시이름', emails: '임시이메일' };
-
-    return user;
+    const { id, username } = profile;
+    let user = await this.ownerService.findOne(ProviderType.KAKAO, String(id));
+    if (!user) {
+      user = await this.ownerService.create({
+        provider: ProviderType.KAKAO,
+        providerId: String(id),
+        nickname: String(username),
+      });
+    }
+    return { userType: 'OWNER', username: user.nickname };
   }
 }

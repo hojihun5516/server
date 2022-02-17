@@ -6,8 +6,9 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 // import { AuthModule } from './auth/auth.module';
-import { OwnerService } from './owner/owner.service';
-import { OwnerModule } from './owner/owner.module';
+import { OwnerService } from './user/owner/owner.service';
+import { OwnerModule } from './user/owner/owner.module';
+import { JwtAuthModule } from './auth/jwt/jwt-auth.module';
 
 @Module({
   imports: [
@@ -26,8 +27,8 @@ import { OwnerModule } from './owner/owner.module';
         password: configService.get<string>('MYSQL_PASSWORD'), //'test',
         database: configService.get<string>('MYSQL_DATABASE'),
 
-        entities: [__dirname + '/**/*.entity{.ts,.js}'],
-        synchronize: true, // true,
+        entities: [__dirname + 'dist/**/*.entity{.ts,.js}'],
+        synchronize: configService.get<boolean>('MYSQL_DATABASE_SYNCHRONIZE'), // true,
         // ssl:
         //   configService.get<string>('NODE_ENV') === 'production'
         //     ? { rejectUnauthorized: false }
@@ -35,10 +36,10 @@ import { OwnerModule } from './owner/owner.module';
       }),
       inject: [ConfigService],
     }),
-    OwnerModule,
+    // OwnerModule,
     KakaoOauthModule,
   ],
   controllers: [AppController],
-  providers: [AppService, OwnerService],
+  providers: [AppService],
 })
 export class AppModule {}

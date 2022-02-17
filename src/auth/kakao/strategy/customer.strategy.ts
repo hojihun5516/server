@@ -9,13 +9,12 @@ export class KakaoOauthCustomerStrategy extends PassportStrategy(
   Strategy,
   'kakaoCustomer',
 ) {
-  constructor(
-    configService: ConfigService,
-    // private readonly usersService: UsersService,
-  ) {
+  constructor(configService: ConfigService) {
     super({
       clientID: configService.get<string>('KAKAO_OAUTH_CLIENT_ID'),
-      callbackURL: configService.get<string>('KAKAO_OAUTH_CALLBACK_URL'),
+      callbackURL: configService.get<string>(
+        'KAKAO_OAUTH_CUSTOMER_CALLBACK_URL',
+      ),
     });
   }
 
@@ -24,7 +23,7 @@ export class KakaoOauthCustomerStrategy extends PassportStrategy(
     _refreshToken: string,
     profile: Profile,
   ) {
-    const { id, name, emails } = profile;
+    const { id, displayName } = profile;
     console.log(profile);
 
     // let user = await this.usersService.findOne({
