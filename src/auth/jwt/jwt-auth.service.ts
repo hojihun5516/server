@@ -9,7 +9,7 @@ export class JwtAuthService {
 
   login(user) {
     const payload: JwtPayload = {
-      username: user.username,
+      nickname: user.nickname,
       userType: user.userType,
     };
     return {

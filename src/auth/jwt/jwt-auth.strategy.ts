@@ -4,7 +4,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 // import { SESSION_COOKIE_KEY } from 'src/server/config/constants';
 
-export type JwtPayload = { userType: string; username: string };
+export type JwtPayload = { userType: string; nickname: string };
 
 @Injectable()
 export class JwtAuthStrategy extends PassportStrategy(Strategy) {
@@ -27,6 +27,6 @@ export class JwtAuthStrategy extends PassportStrategy(Strategy) {
 
   async validate(payload: JwtPayload) {
     console.log('VALIDATE');
-    return { userType: payload.userType, username: payload.username };
+    return { userType: payload.userType, nickname: payload.nickname };
   }
 }
