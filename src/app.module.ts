@@ -1,14 +1,8 @@
-import { KakaoOauthModule } from './auth/kakao/kakao-oauth.module';
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-// import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-// import { AuthModule } from './auth/auth.module';
-import { OwnerService } from './user/owner/owner.service';
-import { OwnerModule } from './user/owner/owner.module';
-import { JwtAuthModule } from './auth/jwt/jwt-auth.module';
 
 @Module({
   imports: [
@@ -37,7 +31,6 @@ import { JwtAuthModule } from './auth/jwt/jwt-auth.module';
       inject: [ConfigService],
     }),
     // OwnerModule,
-    KakaoOauthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

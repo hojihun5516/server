@@ -1,10 +1,9 @@
+import { JwtPayload } from './jwt.payload';
 import { Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 // import { SESSION_COOKIE_KEY } from 'src/server/config/constants';
-
-export type JwtPayload = { userType: string; nickname: string };
 
 @Injectable()
 export class JwtAuthStrategy extends PassportStrategy(Strategy) {
@@ -12,15 +11,15 @@ export class JwtAuthStrategy extends PassportStrategy(Strategy) {
     const extractJwtFromCookie = (req) => {
       let token = null;
 
-      if (req && req.cookies) {
-        token = req.cookies[configService.get<string>('JWT_COOKIE_KEY')];
+      if (req && req.headers) {
+        token = req.headers[configService.get<string>('JWT_COOKIE_KEY')];
       }
       return token;
     };
 
     super({
       jwtFromRequest: extractJwtFromCookie,
-      // ignoreExpiration: false,
+      ignoreExpiration: false,
       secretOrKey: configService.get<string>('JWT_SECRET'),
     });
   }
