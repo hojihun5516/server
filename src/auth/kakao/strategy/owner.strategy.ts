@@ -34,6 +34,6 @@ export class KakaoOauthOwnerStrategy extends PassportStrategy(
         nickname: String(username),
       });
     }
-    return { userType: 'OWNER', username: user.nickname };
+    return { userType: 'OWNER', nickname: user.nickname };
   }
 }
