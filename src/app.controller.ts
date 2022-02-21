@@ -19,4 +19,9 @@ export class AppController {
   test(): string {
     return 'test success';
   }
+
+  @Get('test2')
+  test2(): string {
+    return 'test2 success';
+  }
 }
