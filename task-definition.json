@@ -12,12 +12,10 @@
           "protocol": "tcp"
         }
       ],
-      "essential": true,
-      "memory": 512,
-      "memoryReservation": 300
+      "essential": true
     }
   ],
   "requiresCompatibilities": ["EC2"],
-  "cpu": "512",
-  "memory": "512"
+  "cpu": "300",
+  "memory": "300"
 }
