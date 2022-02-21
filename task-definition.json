@@ -12,7 +12,9 @@
           "protocol": "tcp"
         }
       ],
-      "essential": true
+      "essential": true,
+      "memory": 512,
+      "memoryReservation": 300
     }
   ],
   "requiresCompatibilities": ["EC2"],
