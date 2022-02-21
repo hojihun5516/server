@@ -1,0 +1,21 @@
+{
+  "family": "tablepay-ecs",
+  "networkMode": "awsvpc",
+  "containerDefinitions": [
+    {
+      "name": "container-for-tablepay-ecs",
+      "image": "592157167592.dkr.ecr.ap-northeast-2.amazonaws.com/tablepay-server:latest",
+      "portMappings": [
+        {
+          "containerPort": 3000,
+          "hostPort": 3000,
+          "protocol": "tcp"
+        }
+      ],
+      "essential": true
+    }
+  ],
+  "requiresCompatibilities": ["EC2"],
+  "cpu": "512",
+  "memory": "512"
+}

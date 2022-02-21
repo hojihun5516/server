@@ -13,13 +13,18 @@
     "start:dev-db": "docker run --name mysql -p3307:3306 -e MYSQL_ROOT_PASSWORD=0000 -e MYSQL_PASSWORD=table -e MYSQL_USER=table -e MYSQL_DATABASE=tablepay -v /c/Users/Jihun/Desktop/table-pay/server/mysql-data:/var/lib/mysql -d mysql",
     "start:dev": "cross-env ENV_PATH=.dev.env nest start --watch",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main",
+    "start:prod": "cross-env ENV_PATH=.prod.env node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "aws-ecs-taskdefinition": "aws ecs register-task-definition --cli-input-json file://task-definition.json  --profile tablepay",
+    "aws-ecr-login": "aws ecr get-login-password --profile tablepay --region ap-northeast-2 | docker login --username AWS --password-stdin 592157167592.dkr.ecr.ap-northeast-2.amazonaws.com/",
+    "docker-build": "docker build -t tablepay .",
+    "aws-ecr-docker-tag": "docker tag tablepay 592157167592.dkr.ecr.ap-northeast-2.amazonaws.com/tablepay-server:latest",
+    "aws-ecr-docker-push": "docker push 592157167592.dkr.ecr.ap-northeast-2.amazonaws.com/tablepay-server"
   },
   "dependencies": {
     "@nestjs/common": "^8.1.1",
