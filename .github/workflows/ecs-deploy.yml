@@ -60,13 +60,13 @@ jobs:
           # Build a docker container and
           # push it to ECR so that it can
           # be deployed to ECS.
-          echo ls
-          echo cd ..
-          echo ls
-          echo cd ..
-          echo ls
-          echo cd ..
-          echo ls
+          ls
+          cd ..
+          ls
+          cd ..
+          ls
+          cd ..
+          ls
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
