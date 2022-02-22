@@ -8,7 +8,7 @@
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "nest start",
+    "start": "cross-env ENV_PATH=.prod.env node dist/main",
     "start:dev-first": "concurrently \"npm run start:dev-db \" \"npm run start:dev\"",
     "start:dev-db": "docker run --name mysql -p3307:3306 -e MYSQL_ROOT_PASSWORD=0000 -e MYSQL_PASSWORD=table -e MYSQL_USER=table -e MYSQL_DATABASE=tablepay -v /c/Users/Jihun/Desktop/table-pay/server/mysql-data:/var/lib/mysql -d mysql",
     "start:dev": "cross-env ENV_PATH=.dev.env nest start --watch",
