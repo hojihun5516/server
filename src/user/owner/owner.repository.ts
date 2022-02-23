@@ -12,10 +12,13 @@ import { Owner } from './entities/owner.entity';
 
 @EntityRepository(Owner)
 export class OwnerRepository extends Repository<Owner> {
+  constructor() {
+    super();
+  }
+
   async createOwner(ownerData: CreateOwnerDto): Promise<Owner> {
     try {
       const created_owner = this.create(ownerData);
-      console.log('repo', created_owner);
       return await this.save(created_owner);
     } catch (e) {
       throw new ServiceUnavailableException('Server Error');
