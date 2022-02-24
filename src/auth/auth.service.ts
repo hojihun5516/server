@@ -17,7 +17,10 @@ export class AuthService {
     const { provider, providerId, nickname, userType } = loginDto;
 
     if (userType == UserType.OWNER) {
-      let owner = await this.ownerRepository.findOneOwner(provider, providerId);
+      let owner = await this.ownerRepository.findOneOwnerByProvider(
+        provider,
+        providerId,
+      );
       if (!owner) {
         owner = await this.ownerRepository.createOwner({
           provider,
