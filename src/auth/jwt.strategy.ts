@@ -10,9 +10,10 @@ export class JwtAuthStrategy extends PassportStrategy(Strategy, 'jwt') {
     const extractJwtFromCookie = (req) => {
       let token = null;
       if (req && req.headers) {
-        token = req.headers[
-          configService.get<string>('JWT_COOKIE_KEY')
-        ].replace('Bearer ', '');
+        token = req.headers[configService.get<string>('JWT_COOKIE_KEY')];
+        if (token) {
+          token = token.replace('Bearer ', '');
+        }
       }
       return token;
     };
