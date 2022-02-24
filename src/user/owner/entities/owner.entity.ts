@@ -1,3 +1,4 @@
+import { Shop } from 'src/shop/entities/shop.entity';
 import { UserEntity } from 'src/user/entities/user.entity';
 import {
   Column,
@@ -14,6 +15,6 @@ import {
 
 @Entity('Owner')
 export class Owner extends UserEntity {
-  //   @OneToMany(() => Order, (order) => order.user)
-  //   orders: Order[];
+  @OneToMany(() => Shop, (shop) => shop.owner)
+  shops: Shop[];
 }

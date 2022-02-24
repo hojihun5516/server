@@ -19,7 +19,10 @@ export class OwnerService {
   }
 
   async findOne(provider: string, providerId: string): Promise<Owner> {
-    return await this.ownerRepository.findOneOwner(provider, providerId);
+    return await this.ownerRepository.findOneOwnerByProvider(
+      provider,
+      providerId,
+    );
   }
 
   update(id: number, updateOwnerDto: UpdateOwnerDto) {

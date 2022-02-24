@@ -24,9 +24,24 @@ export class OwnerRepository extends Repository<Owner> {
       throw new ServiceUnavailableException('Server Error');
     }
   }
-  async findOneOwner(provider: string, providerId: string): Promise<Owner> {
+  async findOneOwnerByProvider(
+    provider: string,
+    providerId: string,
+  ): Promise<Owner> {
     try {
       const user = await this.findOne({ provider, providerId });
+      if (!user) {
+        return null;
+      }
+      return user;
+    } catch (e) {
+      throw new ServiceUnavailableException('Server Error');
+    }
+  }
+
+  async findOneOwnerById(id: string): Promise<Owner> {
+    try {
+      const user = await this.findOne({ id });
       if (!user) {
         return null;
       }
