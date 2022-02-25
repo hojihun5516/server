@@ -1,3 +1,5 @@
+import { UpdateShopDto } from './dto/update-shop.dto';
+import { PaginationParams } from './../common/types/pagination-params.type';
 import { Owner } from './../user/owner/entities/owner.entity';
 import { CreateShopDto } from './dto/create-shop.dto';
 import { Shop } from 'src/shop/entities/shop.entity';
@@ -26,6 +28,62 @@ export class ShopRepository extends Repository<Shop> {
       throw new ServiceUnavailableException('Server Error');
     }
   }
+  async readAllEveryUser(paginationParams: PaginationParams): Promise<Shop[]> {
+    const { offset, limit } = paginationParams;
+    try {
+      const readAllShop = this.find({
+        order: {
+          id: 'ASC',
+        },
+        skip: offset,
+        take: limit,
+      });
+      return readAllShop;
+    } catch (e) {
+      throw new ServiceUnavailableException('Server Error');
+    }
+  }
+
+  async readAllByOwner(
+    paginationParams: PaginationParams,
+    owner: Owner,
+  ): Promise<Shop[]> {
+    const { offset, limit } = paginationParams;
+    try {
+      const readAllShop = this.find({
+        where: {
+          owner,
+        },
+        order: {
+          id: 'ASC',
+        },
+        skip: offset,
+        take: limit,
+      });
+      return readAllShop;
+    } catch (e) {
+      throw new ServiceUnavailableException('Server Error');
+    }
+  }
+  async updateByOwner(updateShopDto: UpdateShopDto, owner: Owner) {
+    // ): Promise<Shop> {
+    try {
+      const { id, ...otherUpdateShopDto } = updateShopDto;
+      const updatedShop = this.update({ owner, id }, { ...otherUpdateShopDto });
+      return updatedShop;
+    } catch (e) {
+      throw new ServiceUnavailableException('Server Error');
+    }
+  }
+  async deleteByOwner(id: string, owner: Owner) {
+    try {
+      const deleteShop = this.delete({ owner, id });
+      return deleteShop;
+    } catch (e) {
+      throw new ServiceUnavailableException('Server Error');
+    }
+  }
+
   // async findOneOwner(provider: string, providerId: string): Promise<Owner> {
   //   try {
   //     const user = await this.findOne({ provider, providerId });

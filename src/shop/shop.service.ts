@@ -1,3 +1,5 @@
+import { UpdateShopDto } from './dto/update-shop.dto';
+import { PaginationParams } from './../common/types/pagination-params.type';
 import { OwnerRepository } from './../user/owner/owner.repository';
 import { UUIdEntity } from 'src/common/entities/common.entity';
 import { Owner } from './../user/owner/entities/owner.entity';
@@ -18,6 +20,28 @@ export class ShopService {
   async create(createShopDto: CreateShopDto, userId: string): Promise<Shop> {
     const owner = await this.ownerRepository.findOneOwnerById(userId);
     return await this.shopRepository.createShop(createShopDto, owner);
+  }
+
+  async readAllEveryUser(paginationParams: PaginationParams): Promise<Shop[]> {
+    return await this.shopRepository.readAllEveryUser(paginationParams);
+  }
+  async readAllByOwner(
+    paginationParams: PaginationParams,
+    userId: string,
+  ): Promise<Shop[]> {
+    const owner = await this.ownerRepository.findOneOwnerById(userId);
+    return await this.shopRepository.readAllByOwner(paginationParams, owner);
+  }
+
+  async updateByOwner(updateShopDto: UpdateShopDto, userId: string) {
+    // ): Promise<Shop> {
+    const owner = await this.ownerRepository.findOneOwnerById(userId);
+    return await this.shopRepository.updateByOwner(updateShopDto, owner);
+  }
+
+  async deleteShopByOwner(shopId: string, userId: string) {
+    const owner = await this.ownerRepository.findOneOwnerById(userId);
+    return await this.shopRepository.deleteByOwner(shopId, owner);
   }
 
   //   findAll() {
