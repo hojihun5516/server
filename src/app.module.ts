@@ -1,3 +1,4 @@
+import { TableModule } from './shop-table/shop-table.module';
 import { AuthModule } from './auth/auth.module';
 import { OwnerModule } from './user/owner/owner.module';
 import { Module } from '@nestjs/common';
@@ -36,6 +37,7 @@ import { ShopModule } from './shop/shop.module';
     ShopModule,
     OwnerModule,
     AuthModule,
+    TableModule,
   ],
   controllers: [AppController],
   providers: [AppService],
