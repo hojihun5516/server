@@ -73,6 +73,7 @@ export class ShopController {
 
   // @Param('id') id,
   @Delete('/:id')
+  @ApiBearerAuth('authorization')
   @UseGuards(JwtAuthGuard)
   deleteShopByOwner(
     @Param('id') id: string,

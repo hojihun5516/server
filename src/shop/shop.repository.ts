@@ -21,9 +21,9 @@ export class ShopRepository extends Repository<Shop> {
 
   async createShop(shopData: CreateShopDto, owner: Owner): Promise<Shop> {
     try {
-      const created_shop = this.create({ ...shopData });
-      created_shop.owner = owner;
-      return await this.save(created_shop);
+      const createdShop = this.create({ ...shopData });
+      createdShop.owner = owner;
+      return await this.save(createdShop);
     } catch (e) {
       throw new ServiceUnavailableException('Server Error');
     }
@@ -32,13 +32,31 @@ export class ShopRepository extends Repository<Shop> {
     const { offset, limit } = paginationParams;
     try {
       const readAllShop = this.find({
-        order: {
-          id: 'ASC',
-        },
+        order: { id: 'ASC' },
         skip: offset,
         take: limit,
       });
       return readAllShop;
+    } catch (e) {
+      throw new ServiceUnavailableException('Server Error');
+    }
+  }
+  async readOneByIdAndOwner(id: string, owner: Owner): Promise<Shop> {
+    try {
+      const shop = this.findOne({
+        where: { id, owner },
+      });
+      return shop;
+    } catch (e) {
+      throw new ServiceUnavailableException('Server Error');
+    }
+  }
+  async readOneById(id: string): Promise<Shop> {
+    try {
+      const shop = this.findOne({
+        where: { id },
+      });
+      return shop;
     } catch (e) {
       throw new ServiceUnavailableException('Server Error');
     }
@@ -51,12 +69,8 @@ export class ShopRepository extends Repository<Shop> {
     const { offset, limit } = paginationParams;
     try {
       const readAllShop = this.find({
-        where: {
-          owner,
-        },
-        order: {
-          id: 'ASC',
-        },
+        where: { owner },
+        order: { id: 'ASC' },
         skip: offset,
         take: limit,
       });

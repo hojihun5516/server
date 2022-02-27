@@ -1,7 +1,8 @@
+import { ShopTable } from '../../shop-table/entities/shop-table.entity';
 import { Owner } from './../../user/owner/entities/owner.entity';
 import { UserEntity } from 'src/user/entities/user.entity';
 import { UUIdEntity } from 'src/common/entities/common.entity';
-import { Column, Entity, ManyToOne } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 
 @Entity('Shop')
 export class Shop extends UUIdEntity {
@@ -31,4 +32,7 @@ export class Shop extends UUIdEntity {
 
   @ManyToOne((type) => Owner, (owner) => owner.shops)
   owner!: Owner;
+
+  @OneToMany(() => ShopTable, (table) => table.shop)
+  tables: ShopTable[];
 }

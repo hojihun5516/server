@@ -1,3 +1,4 @@
+import { ShopTable } from '../shop-table/entities/shop-table.entity';
 import { ShopRepository } from './shop.repository';
 import { OwnerRepository } from './../user/owner/owner.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -9,7 +10,7 @@ import { ShopService } from './shop.service';
 @Module({
   imports: [
     AuthModule,
-    TypeOrmModule.forFeature([OwnerRepository, ShopRepository]),
+    TypeOrmModule.forFeature([OwnerRepository, ShopRepository, ShopTable]),
   ],
   controllers: [ShopController],
   providers: [ShopService],
